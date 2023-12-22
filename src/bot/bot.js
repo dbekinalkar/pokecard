@@ -37,7 +37,7 @@ for (const folder of commandFolders) {
       commands.push(command.data.toJSON());
     } else {
       console.error(
-        `The command at ${filePath} is missing a required "data" or "execute" property.`
+        `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
       );
     }
   }
