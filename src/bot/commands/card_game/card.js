@@ -25,10 +25,10 @@ const execute = async (interaction) => {
     embed.setTitle(`You unpacked ${packs} packs`).setDescription(
       Object.values(
         cards.reduce((map, element) => {
-          if (!map[element.name]) {
-            map[element.name] = { ...element, count: 1 };
+          if (!map[element.id]) {
+            map[element.id] = { ...element, count: 1 };
           } else {
-            map[element.name].count++;
+            map[element.id].count++;
           }
 
           return map;
