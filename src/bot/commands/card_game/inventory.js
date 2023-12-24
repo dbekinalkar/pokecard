@@ -15,7 +15,7 @@ const execute = async (interaction) => {
     .setTitle("Inventory");
 
   if (cards.length === 0) {
-    embed.setDescription("You have no cards");
+    embed.setDescription("No cards to display!");
   } else {
     embed.addFields(
       rarities
@@ -35,21 +35,6 @@ const execute = async (interaction) => {
         })
         .filter((field) => field.value.length > 0)
     );
-
-    // for (rarity in rarities.sort((a, b) => b.value - a.value)) {
-    //   const cardsByRarity = cards.filter(
-    //     (card) => card.rarity === rarities[rarity].id
-    //   );
-    //   if (cardsByRarity.length > 0) {
-    //     embed.addField(
-    //       rarities[rarity].name,
-    //       cardsByRarity
-    //         .map((card) => `${card.name} (${card.count})`)
-    //         .join("\n"),
-    //       true
-    //     );
-    //   }
-    // }
   }
 
   await interaction.reply({ embeds: [embed] });
