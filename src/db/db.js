@@ -1,1 +1,6 @@
-module.exports = { userPacks: (id, packs) => packs, userDeletePacks: (id, packs) => 10 - packs, addToInv: (id, cards) => cards };
+module.exports = {
+  getUserPacks: (id) => 10,
+  deleteUserpacks: (id, packs) => 10 - packs,
+  updateUserInv: (id, cards) => cards,
+  getUserInv: (id) => [],
+};
