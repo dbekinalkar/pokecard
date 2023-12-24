@@ -1,6 +1,22 @@
 module.exports = {
   getUserPacks: (id) => 10,
-  deleteUserpacks: (id, packs) => 10 - packs,
-  updateUserInv: (id, cards) => cards,
-  getUserInv: (id) => [],
+  deleteUserPacks: (id, packs) => 10 - packs,
+  updateUserInventory: (id, cards) => cards,
+  getUserInventory: (id) => [
+    {
+      id: 0,
+      name: "test",
+      rarity: "rare holo",
+    },
+    {
+      id: 0,
+      name: "test",
+      rarity: "rare holo",
+    },
+    {
+      id: 1,
+      name: "test",
+      rarity: "common",
+    },
+  ],
 };
