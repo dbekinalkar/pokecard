@@ -30,7 +30,7 @@ const execute = async (interaction) => {
             value: cardsByRarity
               .map((card) => `${card.name} (${card.count})`)
               .join("\n"),
-            inline: true,
+            inline: false,
           };
         })
         .filter((field) => field.value.length > 0)
