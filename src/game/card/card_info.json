@@ -1,352 +1,422 @@
-{
-  "0": {
+[
+  {
+    "id": 0,
     "name": "Blank",
     "rarity": "Exclusive",
     "img": "https://images.pokemontcg.io/base1/96_hires.png"
   },
-  "1": {
+  {
+    "id": 1,
     "name": "Alakazam",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/1_hires.png"
   },
-  "2": {
+  {
+    "id": 2,
     "name": "Blastoise",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/2_hires.png"
   },
-  "3": {
+  {
+    "id": 3,
     "name": "Chansey",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/3_hires.png"
   },
-  "4": {
+  {
+    "id": 4,
     "name": "Charizard",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/4_hires.png"
   },
-  "5": {
+  {
+    "id": 5,
     "name": "Clefairy",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/5_hires.png"
   },
-  "6": {
+  {
+    "id": 6,
     "name": "Gyarados",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/6_hires.png"
   },
-  "7": {
+  {
+    "id": 7,
     "name": "Hitmonchan",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/7_hires.png"
   },
-  "8": {
+  {
+    "id": 8,
     "name": "Machamp",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/8_hires.png"
   },
-  "9": {
+  {
+    "id": 9,
     "name": "Magneton",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/9_hires.png"
   },
-  "10": {
+  {
+    "id": 10,
     "name": "Mewtwo",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/10_hires.png"
   },
-  "11": {
+  {
+    "id": 11,
     "name": "Nidoking",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/11_hires.png"
   },
-  "12": {
+  {
+    "id": 12,
     "name": "Ninetales",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/12_hires.png"
   },
-  "13": {
+  {
+    "id": 13,
     "name": "Poliwrath",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/13_hires.png"
   },
-  "14": {
+  {
+    "id": 14,
     "name": "Raichu",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/14_hires.png"
   },
-  "15": {
+  {
+    "id": 15,
     "name": "Venusaur",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/15_hires.png"
   },
-  "16": {
+  {
+    "id": 16,
     "name": "Zapdos",
     "rarity": "Rare Holo",
     "img": "https://images.pokemontcg.io/base1/16_hires.png"
   },
-  "17": {
+  {
+    "id": 17,
     "name": "Beedrill",
     "rarity": "Rare",
     "img": "https://images.pokemontcg.io/base1/17_hires.png"
   },
-  "18": {
+  {
+    "id": 18,
     "name": "Dragonair",
     "rarity": "Rare",
     "img": "https://images.pokemontcg.io/base1/18_hires.png"
   },
-  "19": {
+  {
+    "id": 19,
     "name": "Dugtrio",
     "rarity": "Rare",
     "img": "https://images.pokemontcg.io/base1/19_hires.png"
   },
-  "20": {
+  {
+    "id": 20,
     "name": "Electabuzz",
     "rarity": "Rare",
     "img": "https://images.pokemontcg.io/base1/20_hires.png"
   },
-  "21": {
+  {
+    "id": 21,
     "name": "Electrode",
     "rarity": "Rare",
     "img": "https://images.pokemontcg.io/base1/21_hires.png"
   },
-  "22": {
+  {
+    "id": 22,
     "name": "Pidgeotto",
     "rarity": "Rare",
     "img": "https://images.pokemontcg.io/base1/22_hires.png"
   },
-  "23": {
+  {
+    "id": 23,
     "name": "Arcanine",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/23_hires.png"
   },
-  "24": {
+  {
+    "id": 24,
     "name": "Charmeleon",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/24_hires.png"
   },
-  "25": {
+  {
+    "id": 25,
     "name": "Dewgong",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/25_hires.png"
   },
-  "26": {
+  {
+    "id": 26,
     "name": "Dratini",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/26_hires.png"
   },
-  "27": {
+  {
+    "id": 27,
     "name": "Farfetch'd",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/27_hires.png"
   },
-  "28": {
+  {
+    "id": 28,
     "name": "Growlithe",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/28_hires.png"
   },
-  "29": {
+  {
+    "id": 29,
     "name": "Haunter",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/29_hires.png"
   },
-  "30": {
+  {
+    "id": 30,
     "name": "Ivysaur",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/30_hires.png"
   },
-  "31": {
+  {
+    "id": 31,
     "name": "Jynx",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/31_hires.png"
   },
-  "32": {
+  {
+    "id": 32,
     "name": "Kadabra",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/32_hires.png"
   },
-  "33": {
+  {
+    "id": 33,
     "name": "Kakuna",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/33_hires.png"
   },
-  "34": {
+  {
+    "id": 34,
     "name": "Machoke",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/34_hires.png"
   },
-  "35": {
+  {
+    "id": 35,
     "name": "Magikarp",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/35_hires.png"
   },
-  "36": {
+  {
+    "id": 36,
     "name": "Magmar",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/36_hires.png"
   },
-  "37": {
+  {
+    "id": 37,
     "name": "Nidorino",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/37_hires.png"
   },
-  "38": {
+  {
+    "id": 38,
     "name": "Poliwhirl",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/38_hires.png"
   },
-  "39": {
+  {
+    "id": 39,
     "name": "Porygon",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/39_hires.png"
   },
-  "40": {
+  {
+    "id": 40,
     "name": "Raticate",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/40_hires.png"
   },
-  "41": {
+  {
+    "id": 41,
     "name": "Seel",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/41_hires.png"
   },
-  "42": {
+  {
+    "id": 42,
     "name": "Wartortle",
     "rarity": "Uncommon",
     "img": "https://images.pokemontcg.io/base1/42_hires.png"
   },
-  "43": {
+  {
+    "id": 43,
     "name": "Abra",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/43_hires.png"
   },
-  "44": {
+  {
+    "id": 44,
     "name": "Bulbasaur",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/44_hires.png"
   },
-  "45": {
+  {
+    "id": 45,
     "name": "Caterpie",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/45_hires.png"
   },
-  "46": {
+  {
+    "id": 46,
     "name": "Charmander",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/46_hires.png"
   },
-  "47": {
+  {
+    "id": 47,
     "name": "Diglett",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/47_hires.png"
   },
-  "48": {
+  {
+    "id": 48,
     "name": "Doduo",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/48_hires.png"
   },
-  "49": {
+  {
+    "id": 49,
     "name": "Drowzee",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/49_hires.png"
   },
-  "50": {
+  {
+    "id": 50,
     "name": "Gastly",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/50_hires.png"
   },
-  "51": {
+  {
+    "id": 51,
     "name": "Koffing",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/51_hires.png"
   },
-  "52": {
+  {
+    "id": 52,
     "name": "Machop",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/52_hires.png"
   },
-  "53": {
+  {
+    "id": 53,
     "name": "Magnemite",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/53_hires.png"
   },
-  "54": {
+  {
+    "id": 54,
     "name": "Metapod",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/54_hires.png"
   },
-  "55": {
+  {
+    "id": 55,
     "name": "Nidoran",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/55_hires.png"
   },
-  "56": {
+  {
+    "id": 56,
     "name": "Onix",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/56_hires.png"
   },
-  "57": {
+  {
+    "id": 57,
     "name": "Pidgey",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/57_hires.png"
   },
-  "58": {
+  {
+    "id": 58,
     "name": "Pikachu",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/58_hires.png"
   },
-  "59": {
+  {
+    "id": 59,
     "name": "Poliwag",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/59_hires.png"
   },
-  "60": {
+  {
+    "id": 60,
     "name": "Ponyta",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/60_hires.png"
   },
-  "61": {
+  {
+    "id": 61,
     "name": "Rattata",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/61_hires.png"
   },
-  "62": {
+  {
+    "id": 62,
     "name": "Sandshrew",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/62_hires.png"
   },
-  "63": {
+  {
+    "id": 63,
     "name": "Squirtle",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/63_hires.png"
   },
-  "64": {
+  {
+    "id": 64,
     "name": "Starmie",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/64_hires.png"
   },
-  "65": {
+  {
+    "id": 65,
     "name": "Staryu",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/65_hires.png"
   },
-  "66": {
+  {
+    "id": 66,
     "name": "Tangela",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/66_hires.png"
   },
-  "67": {
+  {
+    "id": 67,
     "name": "Voltorb",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/67_hires.png"
   },
-  "68": {
+  {
+    "id": 68,
     "name": "Vulpix",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/68_hires.png"
   },
-  "69": {
+  {
+    "id": 69,
     "name": "Weedle",
     "rarity": "Common",
     "img": "https://images.pokemontcg.io/base1/69_hires.png"
   }
-}
+]
