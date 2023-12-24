@@ -10,7 +10,7 @@ const generateCards = (id, packs) => {
   let packsToOpen = Math.min(getUserPacks(id, packs), packs);
 
   const cards = [];
-  for (;packsToOpen > 0; packsToOpen--) {
+  for (; packsToOpen > 0; packsToOpen--) {
     cards.push(openPack());
   }
 
@@ -37,4 +37,64 @@ const getUserInventoryCards = (id) => {
   );
 };
 
-module.exports = { generateCards, getUserInventoryCards };
+const sendTradeRequest = (id, traderId, cardsToTrade, cardsToReceive) => {
+  if (cardsToTrade.length === 0 && cardsToReceive.length === 0) {
+    return {
+      success: false,
+      message: "You must trade at least one card",
+    };
+  }
+
+  const userCards = Object.values(
+    getUserInventory(id).reduce((map, element) => {
+      if (!map[element.id]) {
+        map[element.id] = { ...element, count: 1 };
+      } else {
+        map[element.id].count++;
+      }
+
+      return map;
+    }, {})
+  );
+
+  for (card of cardsToReceive) {
+    const userCard = userCards.find((c) => c.id === card.id);
+
+    if (!userCard || userCard.count < card.count) {
+      return {
+        success: false,
+        message: "You don't have the cards you are trading away",
+      };
+    }
+  }
+
+  const traderCards = Object.values(
+    traderCards(traderId).reduce((map, element) => {
+      if (!map[element.id]) {
+        map[element.id] = { ...element, count: 1 };
+      } else {
+        map[element.id].count++;
+      }
+
+      return map;
+    }, {})
+  );
+
+  for (card of cardsToTrade) {
+    const traderCard = traderCards.find((c) => c.id === card.id);
+
+    if (!traderCard || traderCard.count < card.count) {
+      return {
+        success: false,
+        message: "You don't have the cards you are trading for",
+      };
+    }
+  }
+
+  return {
+    success: true,
+    message: "Trade sent successfully",
+  };
+};
+
+module.exports = { generateCards, getUserInventoryCards, sendTradeRequest };
