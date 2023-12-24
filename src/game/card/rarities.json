@@ -1,0 +1,26 @@
+[
+    {
+      "color": "#ffffff",
+      "id": "common",
+      "name": "Common",
+      "value": 1
+    },
+    {
+      "color": "#00ff00",
+      "id": "uncommon",
+      "name": "Uncommon",
+      "value": 2
+    },
+    {
+      "color": "#0000ff",
+      "id": "rare",
+      "name": "Rare",
+      "value": 3
+    },
+    {
+      "color": "#0000ff",
+      "id": "rare holo",
+      "name": "Rare Holo",
+      "value": 4
+    }
+]
