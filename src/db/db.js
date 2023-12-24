@@ -19,4 +19,5 @@ module.exports = {
       rarity: "common",
     },
   ],
+  createTradeRequest: () => 0,
 };

@@ -1,28 +1,23 @@
-const {
-  getUserPacks,
-  deleteUserPacks,
-  updateUserInventory,
-  getUserInventory,
-} = require("../db/db.js");
+const db = require("../db/db.js");
 const { openPack } = require("./card/pack.js");
 
 const generateCards = (id, packs) => {
-  let packsToOpen = Math.min(getUserPacks(id, packs), packs);
+  let packsToOpen = Math.min(db.getUserPacks(id, packs), packs);
 
   const cards = [];
   for (; packsToOpen > 0; packsToOpen--) {
     cards.push(openPack());
   }
 
-  updateUserInventory(id, cards);
+  db.updateUserInventory(id, cards);
 
-  const packsLeft = deleteUserPacks(id, packs);
+  const packsLeft = db.deleteUserPacks(id, packs);
 
   return [cards, packsLeft];
 };
 
-const getUserInventoryCards = (id) => {
-  const inventory = getUserInventory(id);
+const getUserInventory = (id) => {
+  const inventory = db.getUserInventory(id);
 
   return Object.values(
     inventory.reduce((map, element) => {
@@ -46,7 +41,7 @@ const sendTradeRequest = (id, traderId, cardsToTrade, cardsToReceive) => {
   }
 
   const userCards = Object.values(
-    getUserInventory(id).reduce((map, element) => {
+    db.getUserInventory(id).reduce((map, element) => {
       if (!map[element.id]) {
         map[element.id] = { ...element, count: 1 };
       } else {
@@ -91,10 +86,30 @@ const sendTradeRequest = (id, traderId, cardsToTrade, cardsToReceive) => {
     }
   }
 
+  const tradeId = createTradeRequest(
+    id,
+    traderId,
+    cardsToTrade,
+    cardsToReceive
+  );
+
   return {
     success: true,
     message: "Trade sent successfully",
+    id: tradeId,
   };
 };
 
-module.exports = { generateCards, getUserInventoryCards, sendTradeRequest };
+const acceptTradeRequest = (tradeId) => {
+  return {
+    success: false,
+    message: "Trade request not found",
+  };
+};
+
+module.exports = {
+  generateCards,
+  getUserInventory,
+  sendTradeRequest,
+  acceptTradeRequest,
+};

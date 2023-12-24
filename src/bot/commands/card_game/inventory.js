@@ -1,11 +1,9 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { getUserInventoryCards } = require("../../../game/game.js");
+const { getUserInventory } = require("../../../game/game.js");
 const rarities = require("../../../game/card/rarities.json");
 
 const execute = async (interaction) => {
   const user = interaction.options.getUser("user") || interaction.user;
-
-  const cards = getUserInventoryCards(user.id);
 
   const embed = new EmbedBuilder()
     .setAuthor({
@@ -13,6 +11,14 @@ const execute = async (interaction) => {
       iconURL: user.displayAvatarURL(),
     })
     .setTitle("Inventory");
+
+  if (user.bot) {
+    return await interaction.reply({
+      embeds: [embed.setDescription("You can't view a bot's inventory!")],
+    });
+  }
+
+  const cards = getUserInventory(user.id);
 
   if (cards.length === 0) {
     embed.setDescription("No cards to display!");
