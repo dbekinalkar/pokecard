@@ -1,19 +1,40 @@
-const { userPacks, userDeletePacks, addToInv } = require("../db/db.js");
+const {
+  getUserPacks,
+  deleteUserPacks,
+  updateUserInventory,
+  getUserInventory,
+} = require("../db/db.js");
 const { openPack } = require("./card/pack.js");
 
 const generateCards = (id, packs) => {
-  packs = userPacks(id, packs);
+  let packsToOpen = Math.min(getUserPacks(id, packs), packs);
 
   const cards = [];
-  for (let i = 0; i < packs; i++) {
+  for (;packsToOpen > 0; packsToOpen--) {
     cards.push(openPack());
   }
 
-  addToInv(id, cards);
+  updateUserInventory(id, cards);
 
-  packs = userDeletePacks(id, packs);
+  const packsLeft = deleteUserPacks(id, packs);
 
-  return [cards, packs];
+  return [cards, packsLeft];
 };
 
-module.exports = { generateCards };
+const getUserInventoryCards = (id) => {
+  const inventory = getUserInventory(id);
+
+  return Object.values(
+    inventory.reduce((map, element) => {
+      if (!map[element.id]) {
+        map[element.id] = { ...element, count: 1 };
+      } else {
+        map[element.id].count++;
+      }
+
+      return map;
+    }, {})
+  );
+};
+
+module.exports = { generateCards, getUserInventoryCards };
