@@ -21,30 +21,28 @@ const execute = async (interaction) => {
         }`
       )
       .setImage(cards[0].image);
-    await interaction.reply({ embeds: [embed] });
-    return;
-  }
+  } else {
+    embed.setTitle(`You unpacked ${packs} packs`).setDescription(
+      Object.values(
+        cards.reduce((map, element) => {
+          if (!map[element.name]) {
+            map[element.name] = { ...element, count: 1 };
+          } else {
+            map[element.name].count++;
+          }
 
-  embed.setTitle(`You unpacked ${packs} packs`).setDescription(
-    Object.values(
-      cards.reduce((map, element) => {
-        if (!map[element.name]) {
-          map[element.name] = { ...element, count: 1 };
-        } else {
-          map[element.name].count++;
-        }
-
-        return map;
-      }, {})
-    )
-      .map(
-        (card) =>
-          `${card.rarity === "rare holo" && "Holo Rare "}${card.name} (${
-            card.count
-          })`
+          return map;
+        }, {})
       )
-      .join("\n")
-  );
+        .map(
+          (card) =>
+            `${card.rarity === "rare holo" && "Holo Rare "}${card.name} (${
+              card.count
+            })`
+        )
+        .join("\n")
+    );
+  }
 
   await interaction.reply({ embeds: [embed] });
 };
