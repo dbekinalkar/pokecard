@@ -1,10 +1,12 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { generateCards } = require("../../../game/game.js");
+const { openPacks } = require("../../../game/game.js");
 
 const execute = async (interaction) => {
   const packs = interaction.options.getInteger("packs") || 1;
 
-  const [cards, packsLeft] = generateCards(interaction.user.id, packs);
+  const res = await openPacks(interaction.user.id, packs);
+
+  const [cards, packsLeft] = res;
 
   const embed = new EmbedBuilder()
     .setAuthor({
@@ -16,11 +18,11 @@ const execute = async (interaction) => {
   if (packs === 1) {
     embed
       .setTitle(
-        `You unpacked a ${cards[0].rarity === "rare holo" && "Holo Rare "}${
+        `You unpacked a ${cards[0].rarity === "Rare Holo"? "Holo Rare ": ""}${
           cards[0].name
         }`
       )
-      .setImage(cards[0].image);
+      .setImage(cards[0].img);
   } else {
     embed.setTitle(`You unpacked ${packs} packs`).setDescription(
       Object.values(

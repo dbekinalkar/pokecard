@@ -1,3 +1,13 @@
 config.json
 node_modules
 serviceAccountKey.json
+.idea
+**/node_modules/*
+**/.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
+
+**/scripts/*

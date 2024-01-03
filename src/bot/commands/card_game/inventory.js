@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { getUserInventory } = require("../../../game/game.js");
-const rarities = require("../../../game/card/rarities.json");
 
 const execute = async (interaction) => {
   const user = interaction.options.getUser("user") || interaction.user;
@@ -19,6 +18,8 @@ const execute = async (interaction) => {
   }
 
   const cards = getUserInventory(user.id);
+
+  const rarities = {};
 
   if (cards.length === 0) {
     embed.setDescription("No cards to display!");

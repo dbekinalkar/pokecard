@@ -1,23 +1,59 @@
-const db = require("../db/db.js");
-const { openPack } = require("./card/pack.js");
+const dbManager = require("../db/dbManager.js");
+const { getPackContents } = require("./card/pack.js");
 
-const generateCards = (id, packs) => {
-  let packsToOpen = Math.min(db.getUserPacks(id, packs), packs);
+const getUserPacks = async (id) => {
+  const userPacks = await dbManager.getUserPacks(id);
 
-  const cards = [];
-  for (; packsToOpen > 0; packsToOpen--) {
-    cards.push(openPack());
+  return userPacks;
+};
+
+const openPack = async (id, packId) => {
+  const pack = await dbManager.getPack(packId);
+  const packType = await dbManager.getPackType(pack.packType.id);
+
+  const cardId = openPack(packType.weights);
+
+  dbManager.openUserPacks(id, [packId], [cardId]);
+
+  return generatedCards;
+};
+
+const openPacks = async (id, packs) => {
+  const userPacks = await dbManager.getUserPacks(id, packs);
+  const packsToOpen = Math.min(userPacks.length, packs);
+
+  if (packsToOpen === 0) {
+    return [[], 0];
   }
 
-  db.updateUserInventory(id, cards);
+  if (packsToOpen < userPacks.length) {
+    userPacks.splice(packsToOpen);
+  }
 
-  const packsLeft = db.deleteUserPacks(id, packs);
+  const packTypeMap = new Map();
 
-  return [cards, packsLeft];
+  const cards = await Promise.all(
+    userPacks.map(async (pack) => {
+      if (!packTypeMap.has(pack.packType.id)) {
+        const packData = await dbManager.getPackType(pack.packType.id);
+
+        packTypeMap.set(pack.packType.id, packData);
+      }
+      return getPackContents(packTypeMap.get(pack.packType.id).rarities);
+    })
+  );
+
+  await dbManager.openUserPacks(id, userPacks, cards);
+
+  const cardsWithData = await Promise.all(
+    cards.map(async (cardId) => await dbManager.getCardData(cardId))
+  );
+
+  return [cardsWithData, userPacks.length - packsToOpen];
 };
 
 const getUserInventory = (id) => {
-  const inventory = db.getUserInventory(id);
+  const inventory = dbManager.getUserInventory(id);
 
   return Object.values(
     inventory.reduce((map, element) => {
@@ -32,7 +68,12 @@ const getUserInventory = (id) => {
   );
 };
 
-const sendTradeRequest = (id, traderId, cardsToTrade, cardsToReceive) => {
+const sendTradeRequest = (
+  initiatorId,
+  recipientId,
+  offeredCards,
+  requestedCards
+) => {
   if (cardsToTrade.length === 0 && cardsToReceive.length === 0) {
     return {
       success: false,
@@ -41,7 +82,7 @@ const sendTradeRequest = (id, traderId, cardsToTrade, cardsToReceive) => {
   }
 
   const userCards = Object.values(
-    db.getUserInventory(id).reduce((map, element) => {
+    dbManager.getUserInventory(initiatorId).reduce((map, element) => {
       if (!map[element.id]) {
         map[element.id] = { ...element, count: 1 };
       } else {
@@ -86,11 +127,11 @@ const sendTradeRequest = (id, traderId, cardsToTrade, cardsToReceive) => {
     }
   }
 
-  const tradeId = createTradeRequest(
-    id,
-    traderId,
-    cardsToTrade,
-    cardsToReceive
+  const tradeId = dbManager.createTradeRequest(
+    initiatorId,
+    recipientId,
+    offeredCards,
+    requestedCards
   );
 
   return {
@@ -101,14 +142,47 @@ const sendTradeRequest = (id, traderId, cardsToTrade, cardsToReceive) => {
 };
 
 const acceptTradeRequest = (tradeId) => {
+  const res = dbManager.acceptTrade(tradeId);
+
+  switch (res) {
+    case "Success":
+      return {
+        success: true,
+        message: "Trade request accepted",
+      };
+    case "Trade_not_found":
+      return {
+        success: false,
+        message: "Trade request not found",
+      };
+    case "Trade_not_pending":
+      return {
+        success: false,
+        message: "Trade request not pending",
+      };
+    case "Trade_not_enough_cards":
+      return {
+        success: false,
+        message: "Not enough cards to trade",
+      };
+
+    case "Error":
+      return {
+        success: false,
+        message: "Error",
+      };
+  }
+
   return {
     success: false,
-    message: "Trade request not found",
+    message: "Error",
   };
 };
 
 module.exports = {
-  generateCards,
+  getUserPacks,
+  openPack,
+  openPacks,
   getUserInventory,
   sendTradeRequest,
   acceptTradeRequest,

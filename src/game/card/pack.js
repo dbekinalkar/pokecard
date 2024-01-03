@@ -1,23 +1,17 @@
-const cards = require("./card_info.json");
-const rarities = require("./rarities.json");
-
-const openPack = () => {
-  const max = rarities.reduce((sum, rarity) => sum + rarity.weight, 0);
+const getPackContents = (rarityWeights) => {
+  const max = rarityWeights.reduce((sum, rarity) => sum + rarity.weight, 0);
 
   let random = Math.random() * max;
 
-  const rarity = rarities.find((rarity) => {
+  const rarity = rarityWeights.find((rarity) => {
     random -= rarity.weight;
     return random < 0;
   });
 
-  const cardsByRarity = cards.filter(
-    (card) => card.rarity.toLowerCase() === rarity.id.toLowerCase()
-  );
+  const cardId =
+    rarity.cardIds[Math.floor(Math.random() * rarity.cardIds.length)];
 
-  const card = cardsByRarity[Math.floor(Math.random() * cardsByRarity.length)];
-
-  return card;
+  return cardId;
 };
 
-module.exports = { openPack };
+module.exports = { getPackContents };

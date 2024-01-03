@@ -1,33 +1,23 @@
 const mockedRarities = [
-  { id: "1", weight: 50 },
-  { id: "2", weight: 30 },
-  { id: "3", weight: 20 },
+  { id: "1", weight: 50, cards: ["1", "2", "3"] },
+  { id: "2", weight: 30, cards: ["4", "5"] },
+  { id: "3", weight: 20, cards: ["6"] },
 ];
 
-const mockedCards = [
-  { id: 1, name: "Mocked Card 1", rarity: "1" },
-  { id: 2, name: "Mocked Card 2", rarity: "2" },
-  { id: 3, name: "Mocked Card 3", rarity: "3" },
-];
+const { getPackContents } = require("../../../src/game/card/pack");
 
-jest.mock("../../../src/game/card/rarities.json", () => mockedRarities);
-
-jest.mock("../../../src/game/card/card_info.json", () => mockedCards);
-
-const { openPack } = require("../../../src/game/card/pack");
-
-describe("openPack", () => {
+describe("getPackContents", () => {
   it("should return a card", () => {
-    const card = openPack();
-    expect(card).toBeDefined();
-    expect(card).toHaveProperty("id");
-    expect(card).toHaveProperty("name");
-    expect(card).toHaveProperty("rarity");
+    const cardId = getPackContents(mockedRarities);
+    expect(cardId).toBeDefined();
+    expect(["1", "2", "3", "4", "5", "6"]).toContain(cardId);
   });
 
   it("should return a card with the correct rarity", () => {
-    const card = openPack();
-    const rarity = mockedRarities.find((rarity) => rarity.id === card.rarity);
+    const cardId = getPackContents(mockedRarities);
+    const rarity = mockedRarities.find((rarity) =>
+      rarity.cards.includes(cardId)
+    );
     expect(rarity).toBeDefined();
   });
 });
