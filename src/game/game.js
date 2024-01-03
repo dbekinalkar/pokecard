@@ -20,13 +20,14 @@ const openPack = async (id, packId) => {
 
 const openPacks = async (id, packs) => {
   const userPacks = await dbManager.getUserPacks(id, packs);
-  const packsToOpen = Math.min(userPacks.length, packs);
+  const userPacksLength = userPacks.length;
+  const packsToOpen = Math.min(userPacksLength, packs);
 
   if (packsToOpen === 0) {
     return [[], 0];
   }
 
-  if (packsToOpen < userPacks.length) {
+  if (packsToOpen < userPacksLength) {
     userPacks.splice(packsToOpen);
   }
 
@@ -49,18 +50,19 @@ const openPacks = async (id, packs) => {
     cards.map(async (cardId) => await dbManager.getCardData(cardId))
   );
 
-  return [cardsWithData, userPacks.length - packsToOpen];
+  return [cardsWithData, userPacksLength - packsToOpen];
 };
 
-const getUserInventory = (id) => {
-  const inventory = dbManager.getUserInventory(id);
+const getUserInventory = async (id) => {
+  const inventory = await dbManager.getUserInventory(id);
 
   return Object.values(
     inventory.reduce((map, element) => {
-      if (!map[element.id]) {
-        map[element.id] = { ...element, count: 1 };
+      const id = element.cardData.id;
+      if (!map[id]) {
+        map[id] = { ...element.cardData, count: 1 };
       } else {
-        map[element.id].count++;
+        map[id].count++;
       }
 
       return map;

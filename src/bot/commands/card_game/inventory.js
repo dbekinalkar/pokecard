@@ -12,35 +12,38 @@ const execute = async (interaction) => {
     .setTitle("Inventory");
 
   if (user.bot) {
+    embed.setDescription("You can't view a bot's inventory!");
+
     return await interaction.reply({
-      embeds: [embed.setDescription("You can't view a bot's inventory!")],
+      embeds: [embed],
     });
   }
 
-  const cards = getUserInventory(user.id);
+  const cards = await getUserInventory(user.id);
 
-  const rarities = {};
+  const cardsByRarity = cards.reduce((map, element) => {
+    if (!map[element.rarity]) {
+      map[element.rarity] = { value: element.rarity_value, cards: [element] };
+    } else {
+      map[element.rarity].cards.push(element);
+    }
+
+    return map;
+  }, {});
 
   if (cards.length === 0) {
     embed.setDescription("No cards to display!");
   } else {
     embed.addFields(
-      rarities
+      Object.values(cardsByRarity)
         .sort((a, b) => b.value - a.value)
-        .map((rarity) => {
-          const cardsByRarity = cards.filter(
-            (card) => card.rarity === rarity.id
-          );
-
-          return {
-            name: rarity.name,
-            value: cardsByRarity
-              .map((card) => `${card.name} (${card.count})`)
-              .join("\n"),
-            inline: false,
-          };
-        })
-        .filter((field) => field.value.length > 0)
+        .map((rarity) => ({
+          name: rarity.cards[0].rarity_name,
+          value: rarity.cards
+            .map((card) => `${card.name} (${card.count})`)
+            .join("\n"),
+          inline: true,
+        }))
     );
   }
 

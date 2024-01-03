@@ -184,7 +184,7 @@ const getUserInventory = async (id) => {
     return [];
   }
 
-  const inventory = user.data().inventory;
+  const inventory = userSnapshot.data().inventory;
 
   const cards = await Promise.all(inventory.map((card) => card.get()));
 
@@ -193,11 +193,11 @@ const getUserInventory = async (id) => {
     cards.map(async (card) => {
       const cardDataId = card.data().id;
       if (!cardDataMap.has(cardDataId)) {
-        cardDataMap.set(cardDataId, cardData.cardData.get().data());
+        cardDataMap.set(cardDataId, await getCardData(cardDataId));
       }
       return {
         ...card.data(),
-        cardData: (await cardDataMap.get(cardDataId)).data(),
+        cardData: cardDataMap.get(cardDataId),
         id: card.id,
       };
     })
