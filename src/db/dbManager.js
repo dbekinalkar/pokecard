@@ -194,10 +194,12 @@ const openUserPacks = async (id, packs, cards) => {
 
   const batch = db.batch();
 
+  const now = Timestamp.now();
+
   const generatedCards = createCards(id, cards, batch);
 
   packRefs.forEach((packRef) => {
-    batch.update(packRef, { opened: true });
+    batch.update(packRef, { opened: true, openTime: now });
   });
 
   batch.update(userRef, {

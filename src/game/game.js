@@ -9,13 +9,18 @@ const getUserPacks = async (id) => {
 
 const openPack = async (id, packId) => {
   const pack = await dbManager.getPack(packId);
+
+  if (pack.opened) {
+    return;
+  }
+
   const packType = await dbManager.getPackType(pack.packType.id);
 
-  const cardId = openPack(packType.weights);
+  const cardId = getPackContents(packType.weights);
 
   dbManager.openUserPacks(id, [packId], [cardId]);
 
-  return generatedCards;
+  return cardId;
 };
 
 const openPacks = async (id, packs) => {
