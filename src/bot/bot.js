@@ -72,20 +72,28 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 const deployCommands = async (token, clientId) => {
-    const rest = new REST().setToken(token);
+  const rest = new REST().setToken(token);
 
-    try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+  try {
+    console.log(
+      `Started refreshing ${commands.length} application (/) commands.`
+    );
 
-		const data = await rest.put(
-			Routes.applicationCommands(clientId),
-			{ body: commands },
-		);
+    const data = await rest.put(Routes.applicationCommands(clientId), {
+      body: commands,
+    });
 
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-	} catch (error) {
-		console.error(error);
-	}
-}
+    console.log(
+      `Successfully reloaded ${data.length} application (/) commands.`
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-module.exports = {client, deployCommands};
+const start = (token, clientId) => {
+  client.login(token);
+  deployCommands(token, clientId);
+};
+
+module.exports = { start };

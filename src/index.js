@@ -1,8 +1,11 @@
-const { token, clientId } = require("../config.json");
-const { client, deployCommands} = require("./bot/bot.js");
+require("dotenv").config();
+
+const bot = require("./bot/bot.js");
 const server = require("./server/server.js");
 
-client.login(token);
-deployCommands(token, clientId);
+const token = process.env.TOKEN;
+const clientId = process.env.CLIENT_ID;
+
+bot.start(token, clientId);
 
 server.start();
