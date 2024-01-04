@@ -1,5 +1,5 @@
 const dbManager = require("../db/dbManager.js");
-const { getPackContents } = require("./card/pack.js");
+const { getPackContents } = require("./pack.js");
 
 const getUserPacks = async (id) => {
   const userPacks = await dbManager.getUserPacks(id);
