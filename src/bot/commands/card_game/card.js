@@ -4,21 +4,25 @@ const { openPacks } = require("../../../game/game.js");
 const execute = async (interaction) => {
   const packs = interaction.options.getInteger("packs") || 1;
 
-  const res = await openPacks(interaction.user.id, packs);
+  const [cards, packsLeft] = await openPacks(interaction.user.id, packs);
 
-  const [cards, packsLeft] = res;
+  const embed = new EmbedBuilder().setAuthor({
+    name: interaction.member.displayName,
+    iconURL: interaction.member.displayAvatarURL(),
+  });
 
-  const embed = new EmbedBuilder()
-    .setAuthor({
-      name: interaction.member.displayName,
-      iconURL: interaction.member.displayAvatarURL(),
-    })
-    .setFooter({ text: `You have ${packsLeft} packs left` });
+  if (cards.length === 0) {
+    embed.setTitle("You have no packs left");
+    await interaction.reply({ embeds: [embed] });
+    return;
+  }
 
-  if (packs === 1) {
+  embed.setFooter({ text: `You have ${packsLeft} packs left` });
+
+  if (cards.length === 1) {
     embed
       .setTitle(
-        `You unpacked a ${cards[0].rarity === "Rare Holo"? "Holo Rare ": ""}${
+        `You unpacked a ${cards[0].rarity === "Rare Holo" ? "Holo Rare " : ""}${
           cards[0].name
         }`
       )
@@ -38,9 +42,9 @@ const execute = async (interaction) => {
       )
         .map(
           (card) =>
-            `${card.rarity === "rare holo" && "Holo Rare "}${card.name} (${
-              card.count
-            })`
+            `${cards[0].rarity === "Rare Holo" ? "Holo Rare " : ""}${
+              card.name
+            } (${card.count})`
         )
         .join("\n")
     );
