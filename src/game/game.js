@@ -19,7 +19,7 @@ const openPack = async (id, packId) => {
 };
 
 const openPacks = async (id, packs) => {
-  const userPacks = await dbManager.getUserPacks(id, packs);
+  const userPacks = await getUserPacks(id).then((res) => res.packs);
   const userPacksLength = userPacks.length;
   const packsToOpen = Math.min(userPacksLength, packs);
 

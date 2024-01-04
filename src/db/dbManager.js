@@ -4,7 +4,10 @@ const packGenerationTime = 600; // 10 minutes in seconds
 
 const initUser = async (id) => {
   const userRef = db.collection("users").doc(id);
-  const [packs, batch] = createPacks(id, 10, "default");
+
+  const batch = db.batch();
+
+  const packs = createPacks(id, 10, "default", batch);
 
   const defaultUser = {
     inventory: [],
@@ -19,13 +22,10 @@ const initUser = async (id) => {
   return userRef;
 };
 
-const createPacks = (id, count, packType) => {
-  console.log("Creating packs", id, count, packType);
-  console.trace();
+const createPacks = (id, count, packType, batch) => {
   const userRef = db.collection("users").doc(id);
   const packTypeRef = db.collection("packtypes").doc(packType || "default");
   const packs = [];
-  const batch = db.batch();
 
   for (let i = 0; i < count; i++) {
     const packRef = db.collection("packs").doc();
@@ -37,7 +37,7 @@ const createPacks = (id, count, packType) => {
     });
   }
 
-  return [packs, batch];
+  return packs;
 };
 
 const generateFreePacks = async (id) => {
@@ -45,51 +45,90 @@ const generateFreePacks = async (id) => {
     const res = await db.runTransaction(async (t) => {
       const userRef = db.collection("users").doc(id);
       const userSnapshot = await userRef.get();
+
       if (!userSnapshot.exists) {
         await initUser(id);
-        return 10;
+        return {
+          packsToAdd: 0,
+          lastPackGenerationTime: Timestamp.now(),
+          message: "New",
+        };
       }
 
-      const user = userRef.data();
+      const user = userSnapshot.data();
+
       const lastPackGenerationTime = user.lastPackGenerationTime;
       const now = Timestamp.now();
       const diff = now.seconds - lastPackGenerationTime.seconds;
+
       const currentPackCount = user.packs.length;
       let packsToAdd = Math.floor(diff / packGenerationTime);
 
       if (packsToAdd <= 0) {
-        return 0;
+        return {
+          packsToAdd: 0,
+          lastPackGenerationTime,
+          nextPackGenerationTime: new Timestamp(
+            lastPackGenerationTime.seconds + packGenerationTime,
+            lastPackGenerationTime.nanoseconds
+          ),
+          message: "None",
+        };
       }
 
-      if (currentPackCount > 10) {
-        user.set({ lastPackGenerationTime: now });
+      if (currentPackCount >= 10) {
+        userRef.update({ lastPackGenerationTime: now });
+        return { packsToAdd: 0, message: "Full" };
       }
 
       if (currentPackCount + packsToAdd > 10) {
         packsToAdd = 10 - currentPackCount;
       }
 
-      const [packs, batch] = createPacks(id, packsToAdd);
+      const batch = db.batch();
+
+      const packs = createPacks(id, packsToAdd, "default", batch);
+
       const newLastPackGenerationTime = new Timestamp(
         lastPackGenerationTime.seconds + packsToAdd * packGenerationTime,
         lastPackGenerationTime.nanoseconds
       );
+
       batch.update(userRef, {
         packs: FieldValue.arrayUnion(...packs),
         lastPackGenerationTime: newLastPackGenerationTime,
       });
 
       await batch.commit();
+
+      return {
+        packsToAdd,
+        lastPackGenerationTime: newLastPackGenerationTime,
+        nextPackGenerationTime: new Timestamp(
+          newLastPackGenerationTime.seconds + packGenerationTime,
+          newLastPackGenerationTime.nanoseconds
+        ),
+        message: "Success",
+      };
     });
-  } catch (e) {}
+
+    return res;
+  } catch (e) {
+    console.log(e);
+    return {
+      packsToAdd: 0,
+      lastPackGenerationTime: Timestamp.now(),
+      message: "Error",
+    };
+  }
 };
 
-const createCards = (id, cards, batch) => {
+const createCards = (id, cardIds, batch) => {
   const userRef = db.collection("users").doc(id);
 
-  const generatedCards = cards.map((card) => {
+  const generatedCards = cardIds.map((cardId) => {
     const cardRef = db.collection("cards").doc();
-    batch.set(cardRef, { id: card, owner: userRef });
+    batch.set(cardRef, { id: cardId, owner: userRef });
     return cardRef;
   });
 
@@ -103,7 +142,7 @@ const getPack = async (packId) => {
 };
 
 const getUserPacks = async (id) => {
-  await generateFreePacks(id);
+  const res = await generateFreePacks(id);
   const userRef = db.collection("users").doc(id);
   const user = await userRef.get();
   const packs = user.data().packs;
@@ -121,6 +160,7 @@ const getUserPacks = async (id) => {
           id: packTypeId,
         });
       }
+
       return {
         ...packData,
         packType: packTypeMap.get(packTypeId),
@@ -129,7 +169,7 @@ const getUserPacks = async (id) => {
     })
   );
 
-  return packsWithData;
+  return { packs: packsWithData, ...res };
 };
 
 const getPackType = async (packTypeId) => {
@@ -146,7 +186,7 @@ const getPackType = async (packTypeId) => {
 };
 
 const openUserPacks = async (id, packs, cards) => {
-  generateFreePacks(id);
+  await generateFreePacks(id);
 
   const userRef = db.collection("users").doc(id);
 
@@ -303,14 +343,14 @@ const acceptTrade = async (tradeId) => {
 
       return "Success";
     });
+
+    return res;
   } catch (e) {
     if (e.message === "Not enough cards to trade") {
       return "Trade_not_enough_cards";
     }
     return "Error";
   }
-
-  return res;
 };
 
 module.exports = {
