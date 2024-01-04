@@ -13,8 +13,7 @@ const execute = async (interaction) => {
 
   if (cards.length === 0) {
     embed.setTitle("You have no packs left");
-    await interaction.reply({ embeds: [embed] });
-    return;
+    return await interaction.reply({ embeds: [embed] });
   }
 
   embed.setFooter({ text: `You have ${packsLeft} packs left` });
@@ -28,7 +27,7 @@ const execute = async (interaction) => {
       )
       .setImage(cards[0].img);
   } else {
-    embed.setTitle(`You unpacked ${packs} packs`).setDescription(
+    embed.setTitle(`You unpacked ${cards.length} packs`).setDescription(
       Object.values(
         cards.reduce((map, element) => {
           if (!map[element.id]) {
